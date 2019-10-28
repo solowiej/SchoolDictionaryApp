@@ -1,2 +1,1 @@
-# Spring_RestApi
-SchoolDiary App.
+# SchoolDiary App (REST API).
