@@ -1,1 +1,1 @@
-# SchoolDiary App (REST API).
+SchoolDiary App (Spring, REST API).
