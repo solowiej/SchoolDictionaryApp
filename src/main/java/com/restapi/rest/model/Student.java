@@ -3,6 +3,7 @@ package com.restapi.rest.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +45,19 @@ public class Student{
     private StudentGroup studentGroup;
 
     /**
+     * Update this from another.
+     */
+    public void updateFrom(Importer importer) {
+        this.id = importer.getId();
+        this.name = importer.getName();
+        this.surname = importer.getSurname();
+        this.dateOfBirth = importer.getDateOfBirth();
+        this.isAlive = importer.getIsAlive();
+        this.grades = importer.getGrades();
+        this.studentGroup = importer.getStudentGroup();
+    }
+
+    /**
      * Export the current object state.
      */
     public void export(Exporter exporter) {
@@ -54,6 +68,24 @@ public class Student{
         exporter.setIsAlive(isAlive);
         exporter.setGrades(grades);
         exporter.setStudentGroup(studentGroup);
+
+    }
+
+    public interface Importer {
+
+        Long getId();
+
+        String getName();
+
+        String getSurname();
+
+        LocalDate getDateOfBirth();
+
+        Boolean getIsAlive();
+
+        Set<Grade> getGrades();
+
+        StudentGroup getStudentGroup();
 
     }
     public interface Exporter {

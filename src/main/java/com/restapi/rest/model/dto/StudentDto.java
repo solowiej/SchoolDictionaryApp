@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto implements Student.Exporter{
+public class StudentDto implements Student.Importer, Student.Exporter{
 
   private Long id;
 
