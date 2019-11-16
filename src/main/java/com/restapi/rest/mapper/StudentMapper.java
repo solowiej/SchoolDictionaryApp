@@ -2,14 +2,20 @@ package com.restapi.rest.mapper;
 
 import com.restapi.rest.model.Student;
 import com.restapi.rest.model.dto.AddStudentToStudentGroupRequest;
-import com.restapi.rest.model.dto.CreateStudentRequest;
+import com.restapi.rest.model.dto.StudentRequestBody;
+import com.restapi.rest.model.dto.StudentDto;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
-    Student createStudentFromDto(CreateStudentRequest dto);
+    Student createStudentFromDto(StudentRequestBody dto);
+
+    Student createStudentFromDto(StudentDto dto);
+
+    StudentDto createStudentDtoFromStudent(Student student);
 
     @Mappings(value = {
             @Mapping(source = "name", target = "name"),

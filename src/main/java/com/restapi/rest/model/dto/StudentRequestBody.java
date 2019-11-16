@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateStudentRequest {
+public class StudentRequestBody {
 
     private Long id;
     private String name;

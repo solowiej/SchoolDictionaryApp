@@ -3,8 +3,8 @@ package com.restapi.rest.controller;
 import com.restapi.rest.model.dto.AssignGradeToStudentRequest;
 import com.restapi.rest.model.Student;
 import com.restapi.rest.model.dto.AddGradeToStudentRequest;
-import com.restapi.rest.model.dto.CreateStudentRequest;
-import com.restapi.rest.model.dto.StudentUpdateRequest;
+import com.restapi.rest.model.dto.StudentRequestBody;
+import com.restapi.rest.model.dto.StudentDto;
 import com.restapi.rest.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,17 +56,19 @@ public class StudentController {
         return studentService.getByAgeBetween(ageFrom, ageUpTo);
     }
 
-    @PutMapping
-    public Long putStudent(CreateStudentRequest student) {
-        return studentService.save(student);
-    }
-
     @PostMapping
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public void postStudent(StudentUpdateRequest student) {
-        studentService.update(student);
+    public StudentDto createStudent(StudentRequestBody studentRequestBody) {
+        StudentDto dto = studentService.saveStudent(studentRequestBody);
+        return dto;
     }
 
+    @PutMapping
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public StudentDto updateStudent(StudentRequestBody studentRequestBody) {
+        StudentDto dto = studentService.saveStudent(studentRequestBody);
+        return dto;
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)

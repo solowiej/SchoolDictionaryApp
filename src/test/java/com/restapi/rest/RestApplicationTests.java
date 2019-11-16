@@ -1,7 +1,8 @@
 package com.restapi.rest;
 
 import com.restapi.rest.model.Student;
-import com.restapi.rest.model.dto.CreateStudentRequest;
+import com.restapi.rest.model.dto.StudentRequestBody;
+
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class RestApplicationTests {
 
     @Test
     public void test_1_add_student() {
-        CreateStudentRequest request = new CreateStudentRequest(
+        StudentRequestBody request = new StudentRequestBody(
                 null,
                 STUDENT_NAME,
                 STUDENT_SURNAME,
@@ -42,7 +43,7 @@ public class RestApplicationTests {
                 STUDENT_DATE);
 
 
-        HttpEntity<CreateStudentRequest> httpEntity = new HttpEntity<>(request);
+        HttpEntity<StudentRequestBody> httpEntity = new HttpEntity<>(request);
 
         ResponseEntity<Long> response = testRestTemplate
                 .exchange("/student", HttpMethod.PUT, httpEntity, new ParameterizedTypeReference<Long>() {

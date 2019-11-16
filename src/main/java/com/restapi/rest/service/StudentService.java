@@ -7,7 +7,8 @@ import com.restapi.rest.model.Grade;
 import com.restapi.rest.model.Student;
 import com.restapi.rest.model.dto.AddGradeToStudentRequest;
 import com.restapi.rest.model.dto.AssignGradeToStudentRequest;
-import com.restapi.rest.model.dto.CreateStudentRequest;
+import com.restapi.rest.model.dto.StudentRequestBody;
+import com.restapi.rest.model.dto.StudentDto;
 import com.restapi.rest.model.dto.StudentUpdateRequest;
 import com.restapi.rest.repository.GradeRepository;
 import com.restapi.rest.repository.StudentRepository;
@@ -86,10 +87,27 @@ public class StudentService {
     }
 
 
-    public Long save(CreateStudentRequest dto) {
-        Student student = studentMapper.createStudentFromDto(dto);
+    public StudentDto saveStudent(StudentRequestBody dto) {
+        StudentDto studentDto = new StudentDto(dto.getName(), dto.getSurname(), dto.getDateOfBirth(),
+            dto.getIsAlive());
 
-        return studentRepository.save(student).getId();
+        Student student = studentMapper.createStudentFromDto(studentDto);
+        studentRepository.saveAndFlush(student);
+
+        return studentDto;
+    }
+
+    public StudentDto updateStudent(StudentRequestBody dto) {
+        Optional<Student> optionalStudent = studentRepository.findById(dto.getId());
+
+        if (!optionalStudent.isPresent()) {
+            throw new EntityNotFoundException("student, id:" + dto.getId());
+        }
+        Student student = optionalStudent.get();
+
+        studentRepository.saveAndFlush(student);
+
+        return new StudentDto();
     }
 
     public void update(StudentUpdateRequest studentToEdit) {
@@ -165,4 +183,5 @@ public class StudentService {
 
         return gradeRepository.save(grade).getId();
     }
+
 }
