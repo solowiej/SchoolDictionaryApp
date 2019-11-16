@@ -1,6 +1,7 @@
 package com.restapi.rest.model.dto;
 
 import com.restapi.rest.model.Grade;
+import com.restapi.rest.model.Student;
 import com.restapi.rest.model.StudentGroup;
 
 import lombok.AllArgsConstructor;
@@ -9,11 +10,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
+public class StudentDto implements Student.Exporter{
 
   private Long id;
 
@@ -34,5 +36,15 @@ public class StudentDto {
     this.surname = surname;
     this.dateOfBirth = dateOfBirth;
     this.isAlive = isAlive;
+  }
+
+  /**
+   * Creates new instance based on domain object.
+   */
+
+  public static StudentDto newInstance(Student student) {
+    StudentDto dto = new StudentDto();
+    student.export(dto);
+    return dto;
   }
 }

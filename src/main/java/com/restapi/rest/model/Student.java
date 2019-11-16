@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
+public class Student{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,5 +42,38 @@ public class Student {
     @ManyToOne
     @JsonBackReference
     private StudentGroup studentGroup;
+
+    /**
+     * Export the current object state.
+     */
+    public void export(Exporter exporter) {
+        exporter.setId(id);
+        exporter.setName(name);
+        exporter.setSurname(surname);
+        exporter.setDateOfBirth(dateOfBirth);
+        exporter.setIsAlive(isAlive);
+        exporter.setGrades(grades);
+        exporter.setStudentGroup(studentGroup);
+
+    }
+    public interface Exporter {
+
+        void setId(Long id);
+
+        void setName(String name);
+
+        void setSurname(String surname);
+
+        void setDateOfBirth(LocalDate dateOfBirth);
+
+        void setIsAlive(Boolean isAlive);
+
+        void setGrades(Set<Grade> grades);
+
+        void setStudentGroup(StudentGroup studentGroup);
+
+    }
+
+
 
 }
