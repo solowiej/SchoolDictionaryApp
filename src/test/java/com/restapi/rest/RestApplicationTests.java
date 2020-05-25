@@ -26,8 +26,9 @@ public class RestApplicationTests {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
-    private final String STUDENT_NAME = "Pablo";
-    private final String STUDENT_SURNAME = "Marcino";
+
+    private final String STUDENT_NAME = "TestName";
+    private final String STUDENT_SURNAME = "TestSurname";
     private final boolean STUDENT_ALIVE = true;
     private final LocalDate STUDENT_DATE = LocalDate.of(2000, 1, 1);
 
@@ -45,7 +46,7 @@ public class RestApplicationTests {
         HttpEntity<CreateStudentRequest> httpEntity = new HttpEntity<>(request);
 
         ResponseEntity<Long> response = testRestTemplate
-                .exchange("/student", HttpMethod.PUT, httpEntity, new ParameterizedTypeReference<Long>() {
+                .exchange("/student", HttpMethod.POST, httpEntity, new ParameterizedTypeReference<Long>() {
                 });
 
         Long createdId = response.getBody();
@@ -55,16 +56,17 @@ public class RestApplicationTests {
     @Test
     public void test_2_check_added_student() {
         ResponseEntity<List<Student>> response = testRestTemplate
-                .exchange("/student", HttpMethod.GET, null,
-                        new ParameterizedTypeReference<List<Student>>() {
-                        });
+                .exchange("/student", HttpMethod.GET, null, new ParameterizedTypeReference<List<Student>>() {
+                });
 
         List<Student> stringList = response.getBody();
+
 
         Assert.assertFalse(stringList.isEmpty());
         Assert.assertEquals(1, stringList.size());
 
         Student retrieved = stringList.get(0);
+
 
         Assert.assertEquals(STUDENT_NAME, retrieved.getName());
         Assert.assertEquals(STUDENT_SURNAME, retrieved.getSurname());
@@ -78,32 +80,22 @@ public class RestApplicationTests {
 
     }
 
-//
-//    @Test
-//    public void test_3_check_deleted_student() {
-//
-//
-//
-//        HttpEntity<HttpStatus> httpEntity = new HttpEntity<>();
-//
-//
-//
-////        List<Student> stringList = response.getBody();
-////
-////        Assert.assertFalse(stringList.isEmpty());
-////        Assert.assertEquals(1, stringList.size());
-////
-////        Student retrieved = stringList.get(0);
-////
-////        Assert.assertEquals(STUDENT_NAME, retrieved.getName());
-////        Assert.assertEquals(STUDENT_SURNAME, retrieved.getSurname());
-////        Assert.assertEquals(STUDENT_ALIVE, retrieved.isAlive());
-////        Assert.assertEquals(STUDENT_DATE, retrieved.getDateOfBirth());
-////
-////        Integer ageSinceBirthYear = LocalDate.now().getYear() - STUDENT_DATE.getYear();
-////
-////        Assert.assertEquals(ageSinceBirthYear, retrieved.getAge());
-//
-//
-//    }
+    @Test
+    public void test_3_check_deleted_student() {
+        ResponseEntity<List<Student>> getResponse = testRestTemplate
+                .exchange("/student", HttpMethod.GET, null, new ParameterizedTypeReference<List<Student>>() {
+                });
+
+        List<Student> responseGetBody = getResponse.getBody();
+
+        assert responseGetBody != null;
+        Student student = responseGetBody.get(0);
+
+        ResponseEntity<List<Student>> deleteResponse = testRestTemplate
+                .exchange("/student/" + student.getId(), HttpMethod.DELETE, null, new ParameterizedTypeReference<List<Student>>() {
+                });
+
+        List<Student> responseDeleteBody = deleteResponse.getBody();
+        Assert.assertNull(responseDeleteBody);
+    }
 }

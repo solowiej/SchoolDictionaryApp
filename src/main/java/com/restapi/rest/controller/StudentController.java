@@ -9,6 +9,7 @@ import com.restapi.rest.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,14 +57,14 @@ public class StudentController {
         return studentService.getByAgeBetween(ageFrom, ageUpTo);
     }
 
-    @PutMapping
-    public Long putStudent(CreateStudentRequest student) {
+    @PostMapping
+    public Long postStudent(@RequestBody CreateStudentRequest student) {
         return studentService.save(student);
     }
 
-    @PostMapping
+    @PutMapping
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public void postStudent(StudentUpdateRequest student) {
+    public void putStudent(StudentUpdateRequest student) {
         studentService.update(student);
     }
 

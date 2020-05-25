@@ -18,6 +18,7 @@ public class CreateStudentRequest {
     private String surname;
     private Boolean isAlive;
 
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate dateOfBirth;
